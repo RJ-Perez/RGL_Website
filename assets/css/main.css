@@ -2212,8 +2212,8 @@ section,
 }
 
 .team .team-card.featured .team-header .team-image img {
-  width: 120px;
-  height: 120px;
+  width: 300px;
+  height: 300px;
   object-fit: cover;
   border-radius: 15px;
 }
