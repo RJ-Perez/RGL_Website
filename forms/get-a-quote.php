@@ -1,46 +1,101 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+/**
+ * Get A Quote Form Handler using PHPMailer
+ */
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+// Load Composer autoloader
+require '../vendor/autoload.php';
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = 'Request for a quote';
+// Set plain text response header for AJAX
+header('Content-Type: text/plain');
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+// ============================================
+// SMTP CONFIGURATION - Gmail with App Password
+// ============================================
+// $smtp_host = 'smtp.gmail.com';
+// $smtp_port = 587;                             // Use 587 with STARTTLS
+// $smtp_username = 'perezryanjohn@gmail.com';
+// $smtp_password = 'vrcv futp nedt ljfc';       // Gmail App Password
+// $receiving_email = 'perezryanjohn@gmail.com';
 
-  $contact->add_message( $_POST['departure'], 'City of Departure');
-  $contact->add_message( $_POST['delivery'], 'Delivery City');
-  $contact->add_message( $_POST['weight'], 'Total Weight (kg)');
-  $contact->add_message( $_POST['dimensions'], 'Dimensions (cm)');
-  $contact->add_message( $_POST['name'], 'Name');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['phone'], 'Phone');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+$smtp_host = 'smtp-mail.outlook.com';
+$smtp_port = 587;   
+$smtp_SMTPAuth   = true;                     // Use 587 with STARTTLS
+$smtp_SMTPSecure = 'tls';                      // Use 'tls' for Port 58
+$smtp_username = 'ryanjohn.perez@rgl.com.ph';
+$smtp_password = '@fgVk8^1';    // Replace with 16-char App Password!
+$receiving_email = 'ryanjohn.perez@rgl.com.ph';
 
-  echo $contact->send();
+// ============================================
+
+// Validate required fields
+if (empty($_POST['name']) || empty($_POST['email'])) {
+    echo 'Please fill in all required fields.';
+    exit;
+}
+
+// Sanitize input data
+$name = htmlspecialchars(strip_tags(trim($_POST['name'])));
+$email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+$phone = isset($_POST['phone']) ? htmlspecialchars(strip_tags(trim($_POST['phone']))) : '';
+$departure = isset($_POST['departure']) ? htmlspecialchars(strip_tags(trim($_POST['departure']))) : '';
+$delivery = isset($_POST['delivery']) ? htmlspecialchars(strip_tags(trim($_POST['delivery']))) : '';
+$weight = isset($_POST['weight']) ? htmlspecialchars(strip_tags(trim($_POST['weight']))) : '';
+$dimensions = isset($_POST['dimensions']) ? htmlspecialchars(strip_tags(trim($_POST['dimensions']))) : '';
+$message = isset($_POST['message']) ? htmlspecialchars(strip_tags(trim($_POST['message']))) : '';
+
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo 'Invalid email format.';
+    exit;
+}
+
+// Email subject
+$subject = 'RGL Website Inquiry';
+
+// Build email body
+$email_body = "You have received a new inquiry request from your website.\n\n";
+// $email_body .= "City of Departure: $departure\n";
+// $email_body .= "Delivery City: $delivery\n";
+// $email_body .= "Total Weight (kg): $weight\n";
+// $email_body .= "Dimensions (cm): $dimensions\n\n";
+$email_body .= "Name: $name\n";
+$email_body .= "Email: $email\n";
+$email_body .= "Phone: $phone\n";
+if (!empty($message)) {
+    $email_body .= "\nMessage:\n$message\n";
+}
+
+// Create PHPMailer instance
+$mail = new PHPMailer(true);
+
+try {
+    // SMTP settings
+    $mail->isSMTP();
+    $mail->Host       = $smtp_host;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $smtp_username;
+    $mail->Password   = $smtp_password;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = $smtp_port;
+
+    // Recipients
+    $mail->setFrom($smtp_username, 'Website Quote Form');
+    $mail->addAddress($receiving_email);
+    $mail->addReplyTo($email, $name);
+
+    // Content
+    $mail->isHTML(false);
+    $mail->Subject = $subject;
+    $mail->Body    = $email_body;
+
+    $mail->send();
+    echo 'OK';
+} catch (Exception $e) {
+    echo "Unable to send email. Error: {$mail->ErrorInfo}";
+}
 ?>

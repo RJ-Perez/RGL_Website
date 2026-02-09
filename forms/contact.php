@@ -1,42 +1,87 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+/**
+ * Contact Form Handler using PHPMailer
+ */
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+// Load Composer autoloader
+require '../vendor/autoload.php';
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+// Set plain text response header for AJAX
+header('Content-Type: text/plain');
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+// ============================================
+// SMTP CONFIGURATION - Gmail with App Password
+// ============================================
+// $smtp_host = 'smtp.gmail.com';
+// $smtp_port = 587;                             // Use 587 with STARTTLS
+// $smtp_username = 'perezryanjohn@gmail.com';
+// $smtp_password = 'vrcv futp nedt ljfc';    // Replace with 16-char App Password!
+// $receiving_email = 'perezryanjohn@gmail.com';
+$smtp_host = 'smtp-mail.outlook.com';
+$smtp_port = 587;                             // Use 587 with STARTTLS
+$smtp_username = 'ryanjohn.perez';
+$smtp_password = '@fgVk8^1';    // Replace with 16-char App Password!
+$receiving_email = 'ryanjohn.perez@rgl.com.ph';
+// ============================================
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  isset($_POST['phone']) && $contact->add_message($_POST['phone'], 'Phone');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+// Validate required fields
+if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['subject']) || empty($_POST['message'])) {
+    echo 'Please fill in all required fields.';
+    exit;
+}
 
-  echo $contact->send();
+// Sanitize input data
+$name = htmlspecialchars(strip_tags(trim($_POST['name'])));
+$email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+$subject = htmlspecialchars(strip_tags(trim($_POST['subject'])));
+$message = htmlspecialchars(strip_tags(trim($_POST['message'])));
+$phone = isset($_POST['phone']) ? htmlspecialchars(strip_tags(trim($_POST['phone']))) : '';
+
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo 'Invalid email format.';
+    exit;
+}
+
+// Build email body
+$email_body = "You have received a new message from your website contact form.\n\n";
+$email_body .= "From: $name\n";
+$email_body .= "Email: $email\n";
+if (!empty($phone)) {
+    $email_body .= "Phone: $phone\n";
+}
+$email_body .= "\nMessage:\n$message\n";
+
+// Create PHPMailer instance
+$mail = new PHPMailer(true);
+
+try {
+    // SMTP settings
+    $mail->isSMTP();
+    $mail->Host       = $smtp_host;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $smtp_username;
+    $mail->Password   = $smtp_password;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = $smtp_port;
+
+    // Recipients
+    $mail->setFrom($smtp_username, 'Website Contact Form');
+    $mail->addAddress($receiving_email);
+    $mail->addReplyTo($email, $name);
+
+    // Content
+    $mail->isHTML(false);
+    $mail->Subject = $subject;
+    $mail->Body    = $email_body;
+
+    $mail->send();
+    echo 'OK';
+} catch (Exception $e) {
+    echo "Unable to send email. Error: {$mail->ErrorInfo}";
+}
 ?>
