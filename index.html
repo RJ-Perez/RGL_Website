@@ -1434,6 +1434,173 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <!-- RGL Chatbot -->
+  <style>
+    #rgl-chatbot { position: fixed !important; bottom: 24px !important; right: 24px !important; z-index: 2147483647 !important; display: block !important; visibility: visible !important; opacity: 1 !important; }
+    #rgl-chatbot .chat-bubble { width: 64px !important; height: 64px !important; background: linear-gradient(145deg, #1a5fb4, #0d3a6e) !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(20,82,157,0.5) !important; transition: transform 0.3s ease !important; }
+    #rgl-chatbot .chat-bubble:hover { transform: scale(1.1) !important; }
+    #rgl-chatbot .chat-bubble svg { width: 28px !important; height: 28px !important; fill: white !important; }
+    #rgl-chatbot .chat-box { position: absolute !important; bottom: 80px !important; right: 0 !important; width: 360px !important; height: 480px !important; background: #fff !important; border-radius: 16px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important; display: none !important; flex-direction: column !important; overflow: hidden !important; }
+    #rgl-chatbot.active .chat-box { display: flex !important; }
+    #rgl-chatbot .chat-header { background: linear-gradient(145deg, #1a5fb4, #0d3a6e) !important; padding: 16px 20px !important; display: flex !important; align-items: center !important; gap: 12px !important; }
+    #rgl-chatbot .chat-header-avatar { width: 40px !important; height: 40px !important; background: rgba(255,255,255,0.2) !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+    #rgl-chatbot .chat-header-avatar svg { width: 22px !important; height: 22px !important; fill: white !important; }
+    #rgl-chatbot .chat-header-info h4 { color: white !important; margin: 0 !important; font-size: 15px !important; }
+    #rgl-chatbot .chat-header-info p { color: rgba(255,255,255,0.8) !important; margin: 0 !important; font-size: 12px !important; }
+    #rgl-chatbot .chat-messages { flex: 1 !important; overflow-y: auto !important; padding: 16px !important; background: #f5f7fa !important; display: flex !important; flex-direction: column !important; gap: 12px !important; }
+    #rgl-chatbot .message { max-width: 85% !important; padding: 10px 14px !important; border-radius: 12px !important; font-size: 14px !important; line-height: 1.5 !important; }
+    #rgl-chatbot .message.bot { background: white !important; color: #333 !important; align-self: flex-start !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important; }
+    #rgl-chatbot .message.user { background: linear-gradient(145deg, #14529d, #0d3a6e) !important; color: white !important; align-self: flex-end !important; }
+    #rgl-chatbot .typing { display: flex !important; gap: 4px !important; padding: 12px 16px !important; background: white !important; border-radius: 12px !important; align-self: flex-start !important; }
+    #rgl-chatbot .typing span { width: 8px !important; height: 8px !important; background: #14529d !important; border-radius: 50% !important; animation: bounce 1.4s infinite !important; }
+    #rgl-chatbot .typing span:nth-child(2) { animation-delay: 0.2s !important; }
+    #rgl-chatbot .typing span:nth-child(3) { animation-delay: 0.4s !important; }
+    @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+    #rgl-chatbot .chat-input { padding: 12px 16px !important; background: white !important; border-top: 1px solid #e5e7eb !important; display: flex !important; gap: 10px !important; }
+    #rgl-chatbot .chat-input input { flex: 1 !important; border: 1px solid #e5e7eb !important; border-radius: 8px !important; padding: 10px 14px !important; font-size: 14px !important; outline: none !important; }
+    #rgl-chatbot .chat-input input:focus { border-color: #14529d !important; }
+    #rgl-chatbot .chat-input button { background: linear-gradient(145deg, #14529d, #0d3a6e) !important; border: none !important; border-radius: 8px !important; width: 42px !important; height: 42px !important; display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; }
+    #rgl-chatbot .chat-input button svg { width: 18px !important; height: 18px !important; fill: white !important; }
+  </style>
+  <div id="rgl-chatbot">
+    <div class="chat-tooltip" id="chatTooltip" style="display:none;">Chat with us!</div>
+    <button class="chat-bubble" id="chatBubbleBtn" type="button" aria-label="Open chat" style="position:relative;">
+      <svg class="chat-icon" viewBox="0 0 24 24" style="display:block;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+      <svg class="close-icon" viewBox="0 0 24 24" style="display:none;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <div class="chat-box">
+      <div class="chat-header">
+        <div class="chat-header-avatar">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="chat-header-info">
+          <h4>RGL AI Assistant</h4>
+          <p>Chat with us! 💬</p>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot">Hi! 👋 I'm the RGL Assistant. How can I help you today?</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button type="button" id="chatSendBtn">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var chatHistory = [];
+    var isTyping = false;
+    
+    var chatbot = document.getElementById('rgl-chatbot');
+    var bubbleBtn = document.getElementById('chatBubbleBtn');
+    var sendBtn = document.getElementById('chatSendBtn');
+    var chatInput = document.getElementById('chatInput');
+    var chatMessages = document.getElementById('chatMessages');
+    var tooltip = document.getElementById('chatTooltip');
+
+    function toggleChat() {
+      var isActive = chatbot.classList.toggle('active');
+      var chatIcon = bubbleBtn.querySelector('.chat-icon');
+      var closeIcon = bubbleBtn.querySelector('.close-icon');
+      
+      if (isActive) {
+        chatIcon.style.display = 'none';
+        closeIcon.style.display = 'block';
+        setTimeout(function() { chatInput.focus(); }, 100);
+      } else {
+        chatIcon.style.display = 'block';
+        closeIcon.style.display = 'none';
+      }
+    }
+
+    function addMessage(text, isUser) {
+      var div = document.createElement('div');
+      div.className = 'message ' + (isUser ? 'user' : 'bot');
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTyping() {
+      var div = document.createElement('div');
+      div.className = 'typing';
+      div.id = 'typingIndicator';
+      div.innerHTML = '<span></span><span></span><span></span>';
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTyping() {
+      var el = document.getElementById('typingIndicator');
+      if (el) el.remove();
+    }
+
+    function sendMessage() {
+      if (isTyping) return;
+      var text = chatInput.value.trim();
+      if (!text) return;
+
+      chatInput.value = '';
+      addMessage(text, true);
+      chatHistory.push({ role: 'user', content: text });
+
+      isTyping = true;
+      showTyping();
+
+      fetch('forms/chatbot.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: chatHistory.slice(-10) })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        hideTyping();
+        console.log('API Response:', data);
+        if (data.response) {
+          addMessage(data.response, false);
+          chatHistory.push({ role: 'assistant', content: data.response });
+        } else if (data.error) {
+          addMessage('Error: ' + data.error, false);
+        } else {
+          addMessage('Unexpected response. Please try again.', false);
+        }
+        isTyping = false;
+      })
+      .catch(function(e) {
+        hideTyping();
+        console.error('Fetch error:', e);
+        addMessage('Connection error: ' + e.message, false);
+        isTyping = false;
+      });
+    }
+
+    // Event listeners
+    bubbleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleChat();
+    });
+
+    sendBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      sendMessage();
+    });
+
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    console.log('RGL Chatbot initialized');
+  })();
+  </script>
+
 </body>
 
 </html>
