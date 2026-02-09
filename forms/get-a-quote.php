@@ -34,11 +34,14 @@ if (empty($_POST['name']) || empty($_POST['email'])) {
 $name = htmlspecialchars(strip_tags(trim($_POST['name'])));
 $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
 $phone = isset($_POST['phone']) ? htmlspecialchars(strip_tags(trim($_POST['phone']))) : '';
-$departure = isset($_POST['departure']) ? htmlspecialchars(strip_tags(trim($_POST['departure']))) : '';
-$delivery = isset($_POST['delivery']) ? htmlspecialchars(strip_tags(trim($_POST['delivery']))) : '';
-$weight = isset($_POST['weight']) ? htmlspecialchars(strip_tags(trim($_POST['weight']))) : '';
-$dimensions = isset($_POST['dimensions']) ? htmlspecialchars(strip_tags(trim($_POST['dimensions']))) : '';
 $message = isset($_POST['message']) ? htmlspecialchars(strip_tags(trim($_POST['message']))) : '';
+$type = isset($_POST['type']) ? htmlspecialchars(strip_tags(trim($_POST['type']))) : '';
+$company = isset($_POST['company']) ? htmlspecialchars(strip_tags(trim($_POST['company']))) : '';
+
+// $departure = isset($_POST['departure']) ? htmlspecialchars(strip_tags(trim($_POST['departure']))) : '';
+// $delivery = isset($_POST['delivery']) ? htmlspecialchars(strip_tags(trim($_POST['delivery']))) : '';
+// $weight = isset($_POST['weight']) ? htmlspecialchars(strip_tags(trim($_POST['weight']))) : '';
+// $dimensions = isset($_POST['dimensions']) ? htmlspecialchars(strip_tags(trim($_POST['dimensions']))) : '';
 
 // Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -47,7 +50,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // Email subject
-$subject = 'RGL Website Inquiry';
+$subject = 'RGL '. $type .' Inquiry from '. $name;
 
 // Build email body
 $email_body = "You have received a new inquiry request from your website.\n\n";
@@ -56,8 +59,10 @@ $email_body = "You have received a new inquiry request from your website.\n\n";
 // $email_body .= "Total Weight (kg): $weight\n";
 // $email_body .= "Dimensions (cm): $dimensions\n\n";
 $email_body .= "Name: $name\n"; 
+$email_body .= "Company: $company\n";
 $email_body .= "Email: $email\n";
 $email_body .= "Phone: $phone\n";
+$email_body .= "Inquiry Type: $type\n";
 if (!empty($message)) {
     $email_body .= "\nMessage:\n$message\n";
 }
