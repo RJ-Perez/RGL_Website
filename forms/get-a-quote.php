@@ -16,19 +16,11 @@ header('Content-Type: text/plain');
 // ============================================
 // SMTP CONFIGURATION - Gmail with App Password
 // ============================================
-// $smtp_host = 'smtp.gmail.com';
-// $smtp_port = 587;                             // Use 587 with STARTTLS
-// $smtp_username = 'perezryanjohn@gmail.com';
-// $smtp_password = 'vrcv futp nedt ljfc';       // Gmail App Password
-// $receiving_email = 'perezryanjohn@gmail.com';
-
-$smtp_host = 'smtp-mail.outlook.com';
-$smtp_port = 587;   
-$smtp_SMTPAuth   = true;                     // Use 587 with STARTTLS
-$smtp_SMTPSecure = 'tls';                      // Use 'tls' for Port 58
-$smtp_username = 'ryanjohn.perez@rgl.com.ph';
-$smtp_password = '@fgVk8^1';    // Replace with 16-char App Password!
-$receiving_email = 'ryanjohn.perez@rgl.com.ph';
+$smtp_host = 'smtp.gmail.com';
+$smtp_port = 587;                             // Use 587 with STARTTLS
+$smtp_username = 'perezryanjohn@gmail.com';
+$smtp_password = 'vrcv futp nedt ljfc';       // Gmail App Password
+$receiving_email = 'info@rgl.com.ph';
 
 // ============================================
 
@@ -63,7 +55,7 @@ $email_body = "You have received a new inquiry request from your website.\n\n";
 // $email_body .= "Delivery City: $delivery\n";
 // $email_body .= "Total Weight (kg): $weight\n";
 // $email_body .= "Dimensions (cm): $dimensions\n\n";
-$email_body .= "Name: $name\n";
+$email_body .= "Name: $name\n"; 
 $email_body .= "Email: $email\n";
 $email_body .= "Phone: $phone\n";
 if (!empty($message)) {
@@ -84,7 +76,7 @@ try {
     $mail->Port       = $smtp_port;
 
     // Recipients
-    $mail->setFrom($smtp_username, 'Website Quote Form');
+    $mail->setFrom($smtp_username, 'RGL Website Inquiry');
     $mail->addAddress($receiving_email);
     $mail->addReplyTo($email, $name);
 

@@ -16,16 +16,11 @@ header('Content-Type: text/plain');
 // ============================================
 // SMTP CONFIGURATION - Gmail with App Password
 // ============================================
-// $smtp_host = 'smtp.gmail.com';
-// $smtp_port = 587;                             // Use 587 with STARTTLS
-// $smtp_username = 'perezryanjohn@gmail.com';
-// $smtp_password = 'vrcv futp nedt ljfc';    // Replace with 16-char App Password!
-// $receiving_email = 'perezryanjohn@gmail.com';
-$smtp_host = 'smtp-mail.outlook.com';
+$smtp_host = 'smtp.gmail.com';
 $smtp_port = 587;                             // Use 587 with STARTTLS
-$smtp_username = 'ryanjohn.perez';
-$smtp_password = '@fgVk8^1';    // Replace with 16-char App Password!
-$receiving_email = 'ryanjohn.perez@rgl.com.ph';
+$smtp_username = 'perezryanjohn@gmail.com';
+$smtp_password = 'vrcv futp nedt ljfc';    // Replace with 16-char App Password!
+$receiving_email = 'perezryanjohn@gmail.com';
 // ============================================
 
 // Validate required fields

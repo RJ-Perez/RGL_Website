@@ -1236,11 +1236,12 @@
           <div class="col-lg-6">
             <div class="cta-form-section" data-aos="fade-left" data-aos-delay="300">
               <div class="form-container">
-                <div class="form-header">
+                <!-- Uncomment this Header START -->
+                <!-- <div class="form-header">
                   <h3>Get Started</h3>
                   <p>Get started with your business solutions project today</p>
-                </div>
-
+                </div> -->
+                <!-- Uncomment this Header END -->
                 <form action="forms/get-a-quote.php" method="post" class="php-email-form">
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -1248,9 +1249,14 @@
                         <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
                       </div>
                     </div>
+                    <!-- <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="company" class="form-control" placeholder="Company Name" required="">
+                      </div>
+                    </div> -->
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Your Email" required="">
+                        <input type="email" name="email" class="form-control" placeholder="Work Email" required="">
                       </div>
                     </div>
                     <div class="col-12">
@@ -1262,11 +1268,9 @@
                       <div class="form-group">
                         <select name="type" class="form-control" required="">
                           <option value="">How can we help?</option>
-                          <option value="IT Training">IT Training & Talent Network</option>
-                          <option value="IT Outsourcing">IT Outsourcing & Infrastructure</option>
-                          <option value="Strategic IT">Strategic IT Consulting & Digital Transformation</option>
-                          <option value="Micro Sourcing">Micro Sourcing</option>
-
+                          <option value="Strategic IT Consulting">Strategic IT Consulting</option>
+                          <option value="IT Outsourcing">IT Outsourcing</option>
+                          <option value="IT Training & Talent Network">IT Training & Talent Network</option>
                           <option value="other">Other</option>
                         </select>
                       </div>
@@ -1280,7 +1284,7 @@
 
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
-                  <div class="sent-message">Your quote request has been sent. Thank you!</div>
+                  <div class="sent-message">Your inquiry has been sent. Thank you!</div>
 
                   <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
@@ -1288,13 +1292,15 @@
                       Send Message
                     </button>
 
-                    <div class="contact-alternative">
+                    <!-- Uncomment this Contact Alternative START -->
+                    <!-- <div class="contact-alternative">
                       <span>Or call us directly:</span>
                       <a href="tel:+15558921567" class="phone-link">
                         <i class="bi bi-telephone-fill"></i>
                         +1 (555) 892-1567
                       </a>
-                    </div>
+                    </div> -->
+                    <!-- Uncomment this Contact Alternative END -->
                   </div>
                 </form>
               </div>
