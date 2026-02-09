@@ -1360,14 +1360,12 @@
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">MyWebsite</span>
+            <span class="sitename">RGL Business Solutions</span>
           </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+          <p>We are a team of IT professionals who are dedicated to providing the best possible IT solutions to our clients.</p>
           <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+            <a href="https://www.facebook.com/rglbusiness"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/rglbusiness"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
 
@@ -1385,11 +1383,12 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Strategic IT Consulting</a></li>
+            <li><a href="#">IT Outsourcing</a></li>
+            <li><a href="#">IT Training</a></li>
+            <li><a href="#">Talent Network</a></li>
+
+          
           </ul>
         </div>
 
@@ -1442,11 +1441,20 @@
     #rgl-chatbot .chat-bubble svg { width: 28px !important; height: 28px !important; fill: white !important; }
     #rgl-chatbot .chat-box { position: absolute !important; bottom: 80px !important; right: 0 !important; width: 360px !important; height: 480px !important; background: #fff !important; border-radius: 16px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important; display: none !important; flex-direction: column !important; overflow: hidden !important; }
     #rgl-chatbot.active .chat-box { display: flex !important; }
-    #rgl-chatbot .chat-header { background: linear-gradient(145deg, #1a5fb4, #0d3a6e) !important; padding: 16px 20px !important; display: flex !important; align-items: center !important; gap: 12px !important; }
-    #rgl-chatbot .chat-header-avatar { width: 40px !important; height: 40px !important; background: rgba(255,255,255,0.2) !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; }
-    #rgl-chatbot .chat-header-avatar svg { width: 22px !important; height: 22px !important; fill: white !important; }
-    #rgl-chatbot .chat-header-info h4 { color: white !important; margin: 0 !important; font-size: 15px !important; }
-    #rgl-chatbot .chat-header-info p { color: rgba(255,255,255,0.8) !important; margin: 0 !important; font-size: 12px !important; }
+    #rgl-chatbot .chat-header { background: linear-gradient(145deg, #1a5fb4, #0d3a6e) !important; padding: 18px 20px !important; display: flex !important; align-items: center !important; gap: 14px !important; position: relative !important; overflow: hidden !important; }
+    #rgl-chatbot .chat-header::before { content: '' !important; position: absolute !important; top: -50% !important; right: -20% !important; width: 150px !important; height: 150px !important; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%) !important; border-radius: 50% !important; }
+    #rgl-chatbot .chat-header-avatar { width: 48px !important; height: 48px !important; background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1)) !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important; }
+    #rgl-chatbot .chat-header-avatar .avatar-glow { position: absolute !important; inset: -2px !important; background: linear-gradient(45deg, #00d4ff, #7c3aed, #00d4ff) !important; border-radius: 16px !important; z-index: -1 !important; animation: avatarGlow 3s ease-in-out infinite !important; opacity: 0.7 !important; }
+    @keyframes avatarGlow { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+    #rgl-chatbot .chat-header-avatar .robot-icon { width: 28px !important; height: 28px !important; fill: white !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important; }
+    #rgl-chatbot .chat-header-avatar .robot-icon .eye { fill: #00d4ff !important; animation: blink 4s ease-in-out infinite !important; }
+    @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+    #rgl-chatbot .chat-header-avatar .robot-icon .mouth { stroke: white !important; fill: none !important; }
+    #rgl-chatbot .chat-header-avatar .status-dot { position: absolute !important; bottom: -2px !important; right: -2px !important; width: 14px !important; height: 14px !important; background: #22c55e !important; border-radius: 50% !important; border: 2.5px solid #0d3a6e !important; animation: pulse 2s ease-in-out infinite !important; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); } 50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); } }
+    #rgl-chatbot .chat-header-info h4 { color: white !important; margin: 0 0 3px !important; font-size: 16px !important; font-weight: 600 !important; letter-spacing: -0.3px !important; }
+    #rgl-chatbot .chat-header-info p { color: rgba(255,255,255,0.85) !important; margin: 0 !important; font-size: 12px !important; display: flex !important; align-items: center !important; gap: 6px !important; }
+    #rgl-chatbot .chat-header-info .online-indicator { width: 6px !important; height: 6px !important; background: #22c55e !important; border-radius: 50% !important; display: inline-block !important; }
     #rgl-chatbot .chat-messages { flex: 1 !important; overflow-y: auto !important; padding: 16px !important; background: #f5f7fa !important; display: flex !important; flex-direction: column !important; gap: 12px !important; }
     #rgl-chatbot .message { max-width: 85% !important; padding: 10px 14px !important; border-radius: 12px !important; font-size: 14px !important; line-height: 1.5 !important; }
     #rgl-chatbot .message.bot { background: white !important; color: #333 !important; align-self: flex-start !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important; }
@@ -1471,11 +1479,18 @@
     <div class="chat-box">
       <div class="chat-header">
         <div class="chat-header-avatar">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <div class="avatar-glow"></div>
+          <svg viewBox="0 0 24 24" class="robot-icon">
+            <path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7v1h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1H3a1 1 0 01-1-1v-3a1 1 0 011-1h1v-1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/>
+            <circle cx="9" cy="13" r="1.5" class="eye"/>
+            <circle cx="15" cy="13" r="1.5" class="eye"/>
+            <path d="M9 17h6" stroke-width="1.5" stroke-linecap="round" class="mouth"/>
+          </svg>
+          <span class="status-dot"></span>
         </div>
         <div class="chat-header-info">
-          <h4>RGL AI Assistant</h4>
-          <p>Chat with us! 💬</p>
+          <h4>RGL Assistant</h4>
+          <p><span class="online-indicator"></span>Online • AI Powered</p>
         </div>
       </div>
       <div class="chat-messages" id="chatMessages">
