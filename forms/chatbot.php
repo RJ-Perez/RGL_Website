@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ============================================
 // GEMINI API CONFIGURATION
 // ============================================
-$gemini_api_key = 'AIzaSyDIiFuBaN7R0cTomgkUYhThfe3dPwURy10';
+$gemini_api_key = 'AIzaSyAB5mYc34TwxCBkIjUjplmcqjcuH7pe14Y';
 $gemini_model = 'gemini-2.5-flash';
 
 // ============================================
@@ -38,7 +38,7 @@ CORE VALUES:
 
 COMPANY STATS:
 • 350+ Projects Successfully Completed
-• 4.9 Customer Rating
+• 4.9 Customer Rating5
 • 24-Hour Response Time Guarantee
 
 ═══════════════════════════════════════════════
@@ -49,7 +49,7 @@ DETAILED SERVICES
    Moving beyond legacy systems to embrace automation, data analytics, and AI-driven efficiency.
    • Strategic Consulting - Business-IT alignment, technology roadmaps, digital strategy development
    • AI & Digital Transformation - AI implementation, process automation, data analytics, machine learning solutions
-   • Process Optimization - Workflow analysis, efficiency improvements, technology modernization
+   • Process Optimization - Workflo w analysis, efficiency improvements, technology modernization
 
 2. IT OUTSOURCING
    Secure your growth with a resilient, 'always-on' environment shielded from modern threats.
